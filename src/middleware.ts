@@ -1,4 +1,4 @@
-import NextAuth, { NextAuthRequest } from 'next-auth'
+import NextAuth, { type NextAuthRequest } from 'next-auth'
 
 import { NextResponse } from 'next/server'
 import authConfig from './auth.config'
@@ -7,7 +7,7 @@ const { auth } = NextAuth({ ...authConfig })
 
 export default auth(async (req: NextAuthRequest) => {
   const pathname = req.nextUrl.pathname
-
+  console.log(req.auth)
   try {
     if (pathname.startsWith('/login')) {
       if (req.auth) {

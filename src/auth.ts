@@ -8,4 +8,5 @@ export const { handlers, signIn, signOut } = NextAuth({
   adapter: MongoDBAdapter(client),
   session: { strategy: 'jwt' },
   ...authConfig,
+  
 })
