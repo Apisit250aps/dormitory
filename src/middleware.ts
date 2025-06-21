@@ -16,14 +16,20 @@ export default auth(async (req: NextAuthRequest) => {
     }
 
     if (pathname.startsWith('/admin')) {
+      // redirect
       return NextResponse.redirect(new URL('/dashboard', req.nextUrl))
     }
 
     if (pathname.startsWith('/dashboard')) {
+      // unauthenticated
       if (!req.auth) {
         return NextResponse.redirect(
           new URL(`/login?callback=${pathname}`, req.nextUrl)
         )
+      }
+      // forbidden ** not admin
+      if (req.auth.user.role !== 'admin') {
+        return NextResponse.redirect(new URL('/', req.nextUrl))
       }
     }
 
