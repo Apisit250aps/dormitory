@@ -7,7 +7,7 @@ const { auth } = NextAuth({ ...authConfig })
 
 export default auth(async (req: NextAuthRequest) => {
   const pathname = req.nextUrl.pathname
-  console.log(req.auth)
+  // middleware
   try {
     if (pathname.startsWith('/login')) {
       if (req.auth) {
