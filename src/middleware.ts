@@ -1,13 +1,37 @@
-import NextAuth from 'next-auth'
-import { authConfig } from './config'
-import { NextResponse } from 'next/server';
+import NextAuth, { NextAuthRequest } from 'next-auth'
+
+import { NextResponse } from 'next/server'
+import authConfig from './auth.config'
 
 const { auth } = NextAuth({ ...authConfig })
 
-export default auth(async () => {
-  // req.auth
+export default auth(async (req: NextAuthRequest) => {
+  const pathname = req.nextUrl.pathname
 
-  return NextResponse.next()
+  try {
+    if (pathname.startsWith('/login')) {
+      if (req.auth) {
+        return NextResponse.redirect(new URL('/', req.nextUrl))
+      }
+    }
+
+    if (pathname.startsWith('/admin')) {
+      return NextResponse.redirect(new URL('/dashboard', req.nextUrl))
+    }
+
+    if (pathname.startsWith('/dashboard')) {
+      if (!req.auth) {
+        return NextResponse.redirect(
+          new URL(`/login?callback=${pathname}`, req.nextUrl)
+        )
+      }
+    }
+
+    return NextResponse.next()
+  } catch (error) {
+    console.log(error)
+    return NextResponse.next()
+  }
 })
 
 // Optionally, don't invoke Middleware on some paths

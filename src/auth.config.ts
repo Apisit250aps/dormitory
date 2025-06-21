@@ -1,6 +1,4 @@
 import type { NextAuthConfig } from 'next-auth'
 import Google from 'next-auth/providers/google'
 
-export const authConfig: NextAuthConfig = {
-  providers: [Google],
-} satisfies NextAuthConfig
+export default { providers: [Google] } satisfies NextAuthConfig
