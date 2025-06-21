@@ -9,13 +9,41 @@ import {
   CardTitle,
 } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { signIn } from 'next-auth/react'
+import { useForm } from 'react-hook-form'
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form'
+
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+
+const loginSchema = z.object({
+  email: z.string().email(),
+  password: z.string(),
+})
+
+type LoginFormValues = z.infer<typeof loginSchema>
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<'div'>) {
+  const form = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+  })
+
+  const onSubmit = async () => {}
+
   const GoogleSignIn = async () => {
     await signIn('google', { redirect: true })
   }
@@ -29,50 +57,61 @@ export function LoginForm({
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-3">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)}>
+              <div className="flex flex-col gap-6">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
-              <div className="grid gap-3">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                  <a
-                    href="#"
-                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                <FormField
+                  control={form.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Enter password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <div className="flex flex-col gap-3">
+                  <Button type="submit" className="w-full">
+                    Login
+                  </Button>
+                  <Button
+                    onClick={GoogleSignIn}
+                    type="button"
+                    variant="outline"
+                    className="w-full"
                   >
-                    Forgot your password?
-                  </a>
+                    Login with Google
+                  </Button>
                 </div>
-                <Input id="password" type="password" required />
               </div>
-              <div className="flex flex-col gap-3">
-                <Button type="submit" className="w-full">
-                  Login
-                </Button>
-                <Button
-                  onClick={GoogleSignIn}
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                >
-                  Login with Google
-                </Button>
+              <div className="mt-4 text-center text-sm">
+                Don&apos;t have an account?{' '}
+                <a href="#" className="underline underline-offset-4">
+                  Sign up
+                </a>
               </div>
-            </div>
-            <div className="mt-4 text-center text-sm">
-              Don&apos;t have an account?{' '}
-              <a href="#" className="underline underline-offset-4">
-                Sign up
-              </a>
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>
