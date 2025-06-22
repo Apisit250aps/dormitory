@@ -65,7 +65,7 @@ function DataRow<T>({ row }: { row: Row<T> }) {
   return (
     <TableRow
       data-state={row.getIsSelected() && 'selected'}
-      className="relative z-0 data-[dragging=true]:z-10 data-[dragging=true]:opacity-80"
+      className="relative"
     >
       {row.getVisibleCells().map((cell) => (
         <TableCell key={cell.id}>
@@ -103,7 +103,7 @@ export function DataTable<T = Record<string, unknown>>({
   loading = false,
   onRowSelect,
   enableRowSelection = true,
-  enableColumnVisibility = true,
+  enableColumnVisibility = false,
   className,
 }: DataTableProps<T>) {
   const [rowSelection, setRowSelection] = React.useState<
@@ -189,7 +189,6 @@ export function DataTable<T = Record<string, unknown>>({
           ) : null}
         </div>
       </div>
-
       <TabsContent
         value="outline"
         className="relative flex flex-col gap-4 overflow-auto px-4 lg:px-6"
@@ -235,10 +234,7 @@ export function DataTable<T = Record<string, unknown>>({
                 </>
               ) : (
                 <TableRow>
-                  <TableCell
-                    colSpan={columns.length}
-                    className="h-24 text-center"
-                  >
+                  <TableCell colSpan={columns.length} className="text-center">
                     No results.
                   </TableCell>
                 </TableRow>
@@ -246,15 +242,13 @@ export function DataTable<T = Record<string, unknown>>({
             </TableBody>
           </Table>
         </div>
-
-        <div className="flex items-center justify-between px-4">
-          {enableRowSelection && (
+        <div className="flex items-center justify-end px-4">
+          {/* {enableRowSelection && (
             <div className="text-muted-foreground hidden flex-1 text-sm lg:flex">
               {table.getFilteredSelectedRowModel().rows.length} of{' '}
               {table.getFilteredRowModel().rows.length} row(s) selected.
             </div>
-          )}
-
+          )} */}
           <div className="flex w-full items-center gap-8 lg:w-fit">
             {setPagination && (
               <div className="hidden items-center gap-2 lg:flex">
