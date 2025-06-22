@@ -25,7 +25,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar'
 import { signOut, useSession } from 'next-auth/react'
-import { Skeleton } from './ui/skeleton'
+import { Skeleton } from '../ui/skeleton'
 import Image from 'next/image'
 
 export function NavUser() {

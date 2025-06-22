@@ -38,7 +38,7 @@ export async function AdminGetBuildings({
 } = {}): Promise<IResponse<IPagination<Building>>> {
   try {
     const result = await axios.get<IResponse<IPagination<Building>>>(
-      '/api/admin/buildings',
+      '/api/admin/building',
       {
         params: { page, limit },
       }

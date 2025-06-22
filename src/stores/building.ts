@@ -24,12 +24,14 @@ type BuildingStore = {
   createBuilding: (building: Building) => Promise<boolean>
   updateBuilding: (id: string, building: Building) => Promise<boolean>
   deleteBuilding: (id: string) => Promise<boolean>
+
   clearError: () => void
   clearCurrentBuilding: () => void
   setLoading: (loading: boolean) => void
+  setCurrentBuilding: (building: Building) => void
 }
 
-export const useBuildingStore = create<BuildingStore>()((set, get) => ({
+export const useBuilding = create<BuildingStore>()((set, get) => ({
   // Initial State
   buildings: [],
   currentBuilding: null,
@@ -199,12 +201,12 @@ export const useBuildingStore = create<BuildingStore>()((set, get) => ({
   },
 
   // Utility Actions
-  clearError: () => set({ error: null }),
+  clearError: () => setTimeout(() => set({ error: null }), 3000),
 
   clearCurrentBuilding: () => set({ currentBuilding: null }),
 
   setLoading: (loading: boolean) => set({ loading }),
-}))
 
-// Export hook with better name for consistency
-export const useBuilding = useBuildingStore
+  setCurrentBuilding: (building: Building) =>
+    set({ currentBuilding: building }),
+}))

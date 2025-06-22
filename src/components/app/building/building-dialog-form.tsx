@@ -31,6 +31,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+import { useBuilding } from '@/stores/building'
+import { toast } from 'sonner'
 
 export default function BuildingDialogForm() {
   const form = useForm<BuildingValues>({
@@ -42,7 +44,25 @@ export default function BuildingDialogForm() {
     },
   })
 
-  const onSubmit = async () => {}
+  const { clearError, createBuilding, error } = useBuilding()
+
+  const onSubmit = async (data: BuildingValues) => {
+    try {
+      await createBuilding(data)
+      if (!!error) {
+        toast.success('Building created successfully!')
+        // Reset form หรือ redirect
+        form.reset()
+        return
+      } else {
+        toast.error(error || 'Failed to create building')
+        clearError()
+      }
+    } catch (error) {
+      console.error(error)
+      toast.error('An unexpected error occurred')
+    }
+  }
 
   return (
     <Dialog>
@@ -51,7 +71,7 @@ export default function BuildingDialogForm() {
           <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
             <Plus className="size-4" />
           </div>
-          <div className="text-muted-foreground font-medium">Add team</div>
+          <div className="text-muted-foreground font-medium">Add building</div>
         </div>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -80,7 +100,7 @@ export default function BuildingDialogForm() {
                 name="dormitory"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Type</FormLabel>
+                    <FormLabel>Dormitory</FormLabel>
                     <Select
                       onValueChange={(value) => field.onChange(parseInt(value))}
                       value={field.value.toString()}
