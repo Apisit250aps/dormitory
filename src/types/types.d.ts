@@ -27,3 +27,8 @@ export type Pagination = {
 export type QueryParams = {
   params: Promise<{ id: string }>
 }
+
+export type FormDataProps<T> = {
+  onSubmit: (data: T) => Promise<void> | void
+  defaultValues?: T
+}

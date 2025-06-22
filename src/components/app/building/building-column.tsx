@@ -10,6 +10,7 @@ import {
 import { Building } from '@/schemas/building-schema'
 import { IconDotsVertical } from '@tabler/icons-react'
 import { ColumnDef } from '@tanstack/react-table'
+import Link from 'next/link'
 
 export const buildingColumn: ColumnDef<Building>[] = [
   {
@@ -37,7 +38,7 @@ export const buildingColumn: ColumnDef<Building>[] = [
   },
   {
     header: 'actions',
-    cell: () => (
+    cell: ({ row }) => (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
@@ -50,7 +51,9 @@ export const buildingColumn: ColumnDef<Building>[] = [
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-32">
-          <DropdownMenuItem>Edit</DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href={`/dashboard/building/${row.original.uuid}`}>Edit</Link>
+          </DropdownMenuItem>
           <DropdownMenuItem>Make a copy</DropdownMenuItem>
           <DropdownMenuItem>Favorite</DropdownMenuItem>
           <DropdownMenuSeparator />

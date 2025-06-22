@@ -15,11 +15,6 @@ import {
   ColumnFiltersState,
   flexRender,
   getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
   Row,
   useReactTable,
   VisibilityState,
@@ -35,6 +30,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 
 import { Label } from '@/components/ui/label'
+
 import {
   Select,
   SelectContent,
@@ -42,6 +38,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
+
 import {
   Table,
   TableBody,
@@ -50,6 +47,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 
 // ปรับปรุง Pagination type
@@ -93,6 +91,7 @@ export interface DataTableProps<T> {
 export function DataTable<T = Record<string, unknown>>({
   data,
   columns,
+  loading = false,
   pagination = {
     page: 1,
     limit: 10,
@@ -100,7 +99,6 @@ export function DataTable<T = Record<string, unknown>>({
     totalPages: 1,
   },
   setPagination,
-  loading = false,
   onRowSelect,
   enableRowSelection = true,
   enableColumnVisibility = false,
@@ -128,11 +126,6 @@ export function DataTable<T = Record<string, unknown>>({
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
     getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   })
 
   // Callback เมื่อมีการเลือก rows
