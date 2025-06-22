@@ -1,4 +1,5 @@
 import { Building } from '@/models/buildings'
+import { BuildingFormValues } from '@/schemas/building-schema';
 import { IResponse, IPagination } from '@/types/types'
 import axios from 'axios'
 import { AxiosError } from 'axios'
@@ -7,7 +8,7 @@ import { AxiosError } from 'axios'
  * CREATE: Add a new building
  */
 export async function AdminCreateBuilding(
-  data: Building
+  data: BuildingFormValues
 ): Promise<IResponse<Building>> {
   try {
     const result = await axios.post<IResponse<Building>>(

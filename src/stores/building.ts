@@ -1,4 +1,5 @@
 import { Building } from '@/models/buildings'
+import { BuildingFormValues } from '@/schemas/building-schema'
 import {
   AdminGetBuildings,
   AdminGetBuildingById,
@@ -21,7 +22,7 @@ type BuildingStore = {
   // Actions
   getBuildings: (page?: number, limit?: number) => Promise<void>
   getBuildingById: (id: string) => Promise<void>
-  createBuilding: (building: Building) => Promise<boolean>
+  createBuilding: (building: BuildingFormValues) => Promise<boolean>
   updateBuilding: (id: string, building: Building) => Promise<boolean>
   deleteBuilding: (id: string) => Promise<boolean>
 
@@ -105,7 +106,7 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
   },
 
   // Create Building
-  createBuilding: async (building: Building) => {
+  createBuilding: async (building) => {
     set({ loading: true, error: null })
 
     try {
@@ -147,10 +148,10 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
       // Update building in the current list
       set((state) => ({
         buildings: state.buildings.map((b) =>
-          b._id === id ? { ...b, ...building } : b
+          String(b._id) === id ? { ...b, ...building } : b
         ),
         currentBuilding:
-          state.currentBuilding?._id === id
+          String(state.currentBuilding?._id) === id
             ? { ...state.currentBuilding, ...building }
             : state.currentBuilding,
         loading: false,
@@ -182,9 +183,9 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
 
       // Remove building from the current list
       set((state) => ({
-        buildings: state.buildings.filter((b) => b._id !== id),
+        buildings: state.buildings.filter((b) => String(b._id) !== id),
         currentBuilding:
-          state.currentBuilding?._id === id ? null : state.currentBuilding,
+          String(state.currentBuilding?._id) === id ? null : state.currentBuilding,
         loading: false,
         error: null,
       }))

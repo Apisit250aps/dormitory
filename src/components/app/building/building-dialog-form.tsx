@@ -22,7 +22,10 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
-import { BuildingSchema, BuildingValues } from '@/schemas/building-schema'
+import {
+  BuildingFormSchema,
+  BuildingFormValues,
+} from '@/schemas/building-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   Select,
@@ -35,8 +38,8 @@ import { useBuilding } from '@/stores/building'
 import { toast } from 'sonner'
 
 export default function BuildingDialogForm() {
-  const form = useForm<BuildingValues>({
-    resolver: zodResolver(BuildingSchema),
+  const form = useForm<BuildingFormValues>({
+    resolver: zodResolver(BuildingFormSchema),
     defaultValues: {
       name: '',
       dormitory: 'male',
@@ -46,10 +49,10 @@ export default function BuildingDialogForm() {
 
   const { clearError, createBuilding, error } = useBuilding()
 
-  const onSubmit = async (data: BuildingValues) => {
+  const onSubmit = async (data: BuildingFormValues) => {
     try {
       await createBuilding(data)
-      if (!!error) {
+      if (error == null) {
         toast.success('Building created successfully!')
         // Reset form หรือ redirect
         form.reset()
@@ -102,7 +105,7 @@ export default function BuildingDialogForm() {
                   <FormItem>
                     <FormLabel>Dormitory</FormLabel>
                     <Select
-                      onValueChange={(value) => field.onChange(parseInt(value))}
+                      onValueChange={(value) => field.onChange(value)}
                       value={field.value.toString()}
                     >
                       <FormControl className="w-full">

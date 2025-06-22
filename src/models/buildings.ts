@@ -6,6 +6,8 @@ export interface Building {
   name: string
   dormitory: string
   floor: number
+  createdAt: Date
+  updatedAt: Date
 }
 
 const buildings = client.db().collection<Building>('buildings')

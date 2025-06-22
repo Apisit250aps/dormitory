@@ -13,7 +13,6 @@ export async function CreateBuilding(
   try {
     const data = await req.json()
     const result = BuildingSchema.safeParse(data)
-
     if (!result.success) {
       return NextResponse.json(
         { success: false, message: result.error.message },
