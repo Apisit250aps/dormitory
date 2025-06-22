@@ -2,7 +2,7 @@ import client from '@/client'
 import { ObjectId } from 'mongodb'
 
 export interface Building {
-  _id?: ObjectId
+  _id?: ObjectId | string
   name: string
   dormitory: string
   floor: number

@@ -17,6 +17,13 @@ export type IPagination<T = unknown> = {
   totalPages: number
 }
 
+export type Pagination = {
+  page: number
+  limit: number
+  totalDocs: number
+  totalPages: number
+}
+
 export type QueryParams = {
   params: Promise<{ id: string }>
 }

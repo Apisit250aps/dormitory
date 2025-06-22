@@ -6,11 +6,9 @@ import { AxiosError } from 'axios'
 /**
  * CREATE: Add a new building
  */
-export async function AdminCreateBuilding({
-  data,
-}: {
+export async function AdminCreateBuilding(
   data: Building
-}): Promise<IResponse<Building>> {
+): Promise<IResponse<Building>> {
   try {
     const result = await axios.post<IResponse<Building>>(
       '/api/admin/building',
