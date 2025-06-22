@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { Building2, ChevronsUpDown, Plus } from 'lucide-react'
+import { Building2, ChevronsUpDown } from 'lucide-react'
 
 import {
   DropdownMenu,
@@ -18,19 +18,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from '@/components/ui/sidebar'
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog'
-import { Button } from './ui/button'
-import { Label } from './ui/label'
-import { Input } from './ui/input'
+
+import BuildingDialogForm from './app/building/building-dialog-form'
 
 type Team = {
   name: string
@@ -77,7 +66,7 @@ export function TeamSwitcher() {
             sideOffset={4}
           >
             <DropdownMenuLabel className="text-muted-foreground text-xs">
-              Teams
+              Buildings
             </DropdownMenuLabel>
             {teams.map((team, index) => (
               <DropdownMenuItem
@@ -93,51 +82,7 @@ export function TeamSwitcher() {
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
-            <Dialog>
-              <DialogTrigger asChild>
-                <div className="gap-2 p-2 cursor-pointer flex items-center">
-                  <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                    <Plus className="size-4" />
-                  </div>
-                  <div className="text-muted-foreground font-medium">
-                    Add team
-                  </div>
-                </div>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Edit profile</DialogTitle>
-                  <DialogDescription>
-                    Make changes to your profile here. Click save when
-                    you&apos;re done.
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4">
-                  <div className="grid gap-3">
-                    <Label htmlFor="name-1">Name</Label>
-                    <Input
-                      id="name-1"
-                      name="name"
-                      defaultValue="Pedro Duarte"
-                    />
-                  </div>
-                  <div className="grid gap-3">
-                    <Label htmlFor="username-1">Username</Label>
-                    <Input
-                      id="username-1"
-                      name="username"
-                      defaultValue="@peduarte"
-                    />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <DialogClose asChild>
-                    <Button variant="outline">Cancel</Button>
-                  </DialogClose>
-                  <Button type="submit">Save changes</Button>
-                </DialogFooter>
-              </DialogContent>
-            </Dialog>
+            <BuildingDialogForm />
           </DropdownMenuContent>
         </DropdownMenu>
       </SidebarMenuItem>
