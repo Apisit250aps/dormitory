@@ -106,7 +106,7 @@ export async function GetBuildings(
 export async function GetBuildingById(
   req: NextRequest,
   { params }: QueryParams
-) {
+): Promise<NextResponse<IResponse<Building>>> {
   try {
     const { id } = await params
     const building = await buildings.findOne({ _id: new ObjectId(id) })
@@ -144,7 +144,7 @@ export async function GetBuildingById(
 export async function UpdateBuilding(
   req: NextRequest,
   { params }: QueryParams
-) {
+) : Promise<NextResponse<IResponse<Building>>>{
   try {
     const data = await req.json()
     const { id } = await params
@@ -194,7 +194,7 @@ export async function UpdateBuilding(
 export async function DeleteBuilding(
   req: NextRequest,
   { params }: QueryParams
-) {
+) : Promise<NextResponse<IResponse>>{
   try {
     const { id } = await params
 
