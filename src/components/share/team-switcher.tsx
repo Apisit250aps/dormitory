@@ -27,8 +27,9 @@ export default function TeamSwitcher() {
     useBuilding()
 
   const loadBuildings = useCallback(async () => {
+    if (buildings.length) return
     await getBuildings()
-  }, [getBuildings])
+  }, [buildings.length, getBuildings])
 
   useEffect(() => {
     loadBuildings()

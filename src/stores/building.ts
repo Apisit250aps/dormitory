@@ -1,5 +1,4 @@
-import { Building } from '@/models/buildings'
-import { BuildingFormValues } from '@/schemas/building-schema'
+import { Building, BuildingForm } from '@/schemas/building-schema'
 import {
   AdminGetBuildings,
   AdminGetBuildingById,
@@ -22,8 +21,8 @@ type BuildingStore = {
   // Actions
   getBuildings: (page?: number, limit?: number) => Promise<void>
   getBuildingById: (id: string) => Promise<void>
-  createBuilding: (building: BuildingFormValues) => Promise<boolean>
-  updateBuilding: (id: string, building: Building) => Promise<boolean>
+  createBuilding: (building: BuildingForm) => Promise<boolean>
+  updateBuilding: (id: string, building: BuildingForm) => Promise<boolean>
   deleteBuilding: (id: string) => Promise<boolean>
 
   clearError: () => void
@@ -134,7 +133,7 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
   },
 
   // Update Building
-  updateBuilding: async (id: string, building: Building) => {
+  updateBuilding: async (id: string, building) => {
     set({ loading: true, error: null })
 
     try {
@@ -148,10 +147,10 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
       // Update building in the current list
       set((state) => ({
         buildings: state.buildings.map((b) =>
-          String(b._id) === id ? { ...b, ...building } : b
+          b.uuid === id ? { ...b, ...building } : b
         ),
         currentBuilding:
-          String(state.currentBuilding?._id) === id
+          state.currentBuilding?.uuid === id
             ? { ...state.currentBuilding, ...building }
             : state.currentBuilding,
         loading: false,
@@ -183,9 +182,9 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
 
       // Remove building from the current list
       set((state) => ({
-        buildings: state.buildings.filter((b) => String(b._id) !== id),
+        buildings: state.buildings.filter((b) => b.uuid !== id),
         currentBuilding:
-          String(state.currentBuilding?._id) === id ? null : state.currentBuilding,
+          state.currentBuilding?.uuid === id ? null : state.currentBuilding,
         loading: false,
         error: null,
       }))

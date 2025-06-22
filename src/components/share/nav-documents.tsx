@@ -1,6 +1,6 @@
 'use client'
 
-import { IconDots, Icon } from '@tabler/icons-react'
+import { IconDots } from '@tabler/icons-react'
 
 import {
   SidebarGroup,
@@ -9,6 +9,7 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import Link from 'next/link';
 
 export function NavDocuments({
   items,
@@ -16,7 +17,7 @@ export function NavDocuments({
   items: {
     name: string
     url: string
-    icon: Icon
+    icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
   }[]
 }) {
   return (
@@ -26,10 +27,10 @@ export function NavDocuments({
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
-              <a href={item.url}>
+              <Link href={`/dashboard/${item.url}`}>
                 <item.icon />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}

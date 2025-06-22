@@ -1,7 +1,6 @@
-import buildings, { Building } from '@/models/buildings'
-import { BuildingSchema } from '@/schemas/building-schema'
+import { buildings } from '@/models'
+import { Building, BuildingSchema } from '@/schemas/building-schema'
 import { IPagination, IResponse, QueryParams } from '@/types/types'
-import { ObjectId } from 'mongodb'
 import { NextRequest, NextResponse } from 'next/server'
 
 /**
@@ -108,7 +107,7 @@ export async function GetBuildingById(
 ): Promise<NextResponse<IResponse<Building>>> {
   try {
     const { id } = await params
-    const building = await buildings.findOne({ _id: new ObjectId(id) })
+    const building = await buildings.findOne({ uuid: id })
 
     if (!building) {
       return NextResponse.json(
@@ -143,7 +142,7 @@ export async function GetBuildingById(
 export async function UpdateBuilding(
   req: NextRequest,
   { params }: QueryParams
-) : Promise<NextResponse<IResponse<Building>>>{
+): Promise<NextResponse<IResponse<Building>>> {
   try {
     const data = await req.json()
     const { id } = await params
@@ -157,7 +156,7 @@ export async function UpdateBuilding(
     }
 
     const update = await buildings.updateOne(
-      { _id: new ObjectId(id) },
+      { uuid: id },
       { $set: { ...result.data } }
     )
 
@@ -193,11 +192,11 @@ export async function UpdateBuilding(
 export async function DeleteBuilding(
   req: NextRequest,
   { params }: QueryParams
-) : Promise<NextResponse<IResponse>>{
+): Promise<NextResponse<IResponse>> {
   try {
     const { id } = await params
 
-    const remove = await buildings.deleteOne({ _id: new ObjectId(id) })
+    const remove = await buildings.deleteOne({ uuid: id })
 
     if (remove.deletedCount === 0) {
       return NextResponse.json(

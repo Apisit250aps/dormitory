@@ -24,7 +24,7 @@ import {
 import { useForm } from 'react-hook-form'
 import {
   BuildingFormSchema,
-  BuildingFormValues,
+  BuildingForm,
 } from '@/schemas/building-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -38,18 +38,19 @@ import { useBuilding } from '@/stores/building'
 import { toast } from 'sonner'
 
 export default function BuildingDialogForm() {
-  const form = useForm<BuildingFormValues>({
+  const form = useForm<BuildingForm>({
     resolver: zodResolver(BuildingFormSchema),
     defaultValues: {
       name: '',
       dormitory: 'male',
       floor: 1,
+      status: true,
     },
   })
 
   const { clearError, createBuilding, error } = useBuilding()
 
-  const onSubmit = async (data: BuildingFormValues) => {
+  const onSubmit = async (data: BuildingForm) => {
     try {
       await createBuilding(data)
       if (error == null) {
@@ -135,8 +136,9 @@ export default function BuildingDialogForm() {
                       <Input
                         type="number"
                         min={1}
+                        value={field.value}
+                        onChange={(e) => field.onChange(Number(e.target.value))}
                         placeholder="Enter floor"
-                        {...field}
                       />
                     </FormControl>
                     <FormMessage />

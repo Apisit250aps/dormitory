@@ -5,14 +5,14 @@ import {
   IconCamera,
   IconChartBar,
   IconDashboard,
-  IconDatabase,
+
   IconFileAi,
   IconFileDescription,
-  IconFileWord,
+ 
   IconFolder,
   IconHelp,
   IconListDetails,
-  IconReport,
+
   IconSearch,
   IconSettings,
   IconUsers,
@@ -29,6 +29,7 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar'
 import  TeamSwitcher  from './team-switcher';
+import { Building2 } from 'lucide-react';
 
 const data = {
   user: {
@@ -130,20 +131,11 @@ const data = {
   ],
   documents: [
     {
-      name: 'Data Library',
-      url: '#',
-      icon: IconDatabase,
-    },
-    {
-      name: 'Reports',
-      url: '#',
-      icon: IconReport,
-    },
-    {
-      name: 'Word Assistant',
-      url: '#',
-      icon: IconFileWord,
-    },
+      name: 'Buildings',
+      url: '/building',
+      icon: Building2,
+    }
+    
   ],
 }
 
