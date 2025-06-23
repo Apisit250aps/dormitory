@@ -1,5 +1,4 @@
-import { Building } from '@/models/buildings'
-import { BuildingFormValues } from '@/schemas/building-schema';
+import { Building, BuildingFormValues } from '@/schemas/building-schema'
 import { IResponse, IPagination } from '@/types/types'
 import axios from 'axios'
 import { AxiosError } from 'axios'
@@ -59,11 +58,9 @@ export async function AdminGetBuildings({
 /**
  * READ: Get a single building by ID
  */
-export async function AdminGetBuildingById({
-  id,
-}: {
+export async function AdminGetBuildingById(
   id: string
-}): Promise<IResponse<Building>> {
+): Promise<IResponse<Building>> {
   try {
     const result = await axios.get<IResponse<Building>>(
       `/api/admin/building/${id}`
@@ -83,13 +80,10 @@ export async function AdminGetBuildingById({
 /**
  * UPDATE: Modify building by ID
  */
-export async function AdminUpdateBuilding({
-  id,
-  data,
-}: {
-  id: string
-  data: Building
-}): Promise<IResponse<Building>> {
+export async function AdminUpdateBuilding(
+  id: string,
+  data: BuildingFormValues
+): Promise<IResponse<Building>> {
   try {
     const result = await axios.put<IResponse<Building>>(
       `/api/admin/building/${id}`,

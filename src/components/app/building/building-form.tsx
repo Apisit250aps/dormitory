@@ -1,6 +1,7 @@
+'use client'
 import {
   BuildingFormSchema,
-  type BuildingForm,
+  type BuildingFormValues,
 } from '@/schemas/building-schema'
 
 import {
@@ -25,12 +26,14 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { Input } from '@/components/ui/input'
 import { useEffect } from 'react'
+import { Button } from '@/components/ui/button'
+import { Switch } from '@/components/ui/switch'
 
 export default function BuildingForm({
   defaultValues,
   onSubmit,
-}: FormDataProps<BuildingForm>) {
-  const form = useForm<BuildingForm>({
+}: FormDataProps<BuildingFormValues>) {
+  const form = useForm<BuildingFormValues>({
     resolver: zodResolver(BuildingFormSchema),
     defaultValues: defaultValues || {
       name: '',
@@ -94,7 +97,7 @@ export default function BuildingForm({
               </FormItem>
             )}
           />
-          
+
           <FormField
             control={form.control}
             name="floor"
@@ -114,6 +117,37 @@ export default function BuildingForm({
               </FormItem>
             )}
           />
+          <FormField
+            control={form.control}
+            name="status"
+            render={({ field }) => (
+              <FormItem className="flex flex-row items-center justify-between rounded-lg border p-2">
+                <div className="space-y-0.5">
+                  <FormLabel className="text-base">Active Status</FormLabel>
+                  <div className="text-sm text-muted-foreground">
+                    This dormitory is currently{' '}
+                    {field.value ? (
+                      <span className="text-green-600 font-medium">active</span>
+                    ) : (
+                      <span className="text-red-600 font-medium">inactive</span>
+                    )}
+                  </div>
+                </div>
+                <FormControl>
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="flex gap-4 pt-6">
+            <Button type="submit" className="flex-1">
+              Submit
+            </Button>
+          </div>
         </form>
       </Form>
     </>

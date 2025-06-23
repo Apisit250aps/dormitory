@@ -10,13 +10,19 @@ export const BuildingSchema = z.object({
   dormitory: z.string().min(1, 'Type is required'),
   floor: z.number().int().min(0, 'Step must be a non-negative integer'),
   status: z.boolean().default(true).optional(),
-  createdAt: z.preprocess(
-    (arg) =>
-      typeof arg === 'string' || typeof arg === 'number' || arg instanceof Date
-        ? new Date(arg)
-        : undefined,
-    z.date().default(() => new Date())
-  ),
+  createdAt: z.date().default(() => new Date()),
+  updatedAt: z.date().default(() => new Date()),
+})
+
+export const BuildingUpdateSchema = z.object({
+  name: z.string().min(1, 'Name is required').optional(),
+  dormitory: z.string().min(1, 'Type is required').optional(),
+  floor: z
+    .number()
+    .int()
+    .min(0, 'Step must be a non-negative integer')
+    .optional(),
+  status: z.boolean().default(true).optional(),
   updatedAt: z.date().default(() => new Date()),
 })
 
@@ -26,5 +32,5 @@ export const BuildingFormSchema = BuildingSchema.omit({
   updatedAt: true,
 })
 
-export type BuildingForm = z.infer<typeof BuildingFormSchema>
+export type BuildingFormValues = z.infer<typeof BuildingFormSchema>
 export type Building = z.infer<typeof BuildingSchema>

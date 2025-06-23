@@ -24,7 +24,7 @@ import {
 import { useForm } from 'react-hook-form'
 import {
   BuildingFormSchema,
-  BuildingForm,
+  BuildingFormValues,
 } from '@/schemas/building-schema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -38,7 +38,7 @@ import { useBuilding } from '@/stores/building'
 import { toast } from 'sonner'
 
 export default function BuildingDialogForm() {
-  const form = useForm<BuildingForm>({
+  const form = useForm<BuildingFormValues>({
     resolver: zodResolver(BuildingFormSchema),
     defaultValues: {
       name: '',
@@ -50,7 +50,7 @@ export default function BuildingDialogForm() {
 
   const { clearError, createBuilding, error } = useBuilding()
 
-  const onSubmit = async (data: BuildingForm) => {
+  const onSubmit = async (data: BuildingFormValues) => {
     try {
       await createBuilding(data)
       if (error == null) {

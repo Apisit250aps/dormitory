@@ -1,4 +1,4 @@
-import { Building, BuildingForm } from '@/schemas/building-schema'
+import { Building, BuildingFormValues } from '@/schemas/building-schema'
 import {
   AdminGetBuildings,
   AdminGetBuildingById,
@@ -21,8 +21,8 @@ type BuildingStore = {
   // Actions
   getBuildings: (page?: number, limit?: number) => Promise<void>
   getBuildingById: (id: string) => Promise<void>
-  createBuilding: (building: BuildingForm) => Promise<boolean>
-  updateBuilding: (id: string, building: BuildingForm) => Promise<boolean>
+  createBuilding: (building: BuildingFormValues) => Promise<boolean>
+  updateBuilding: (id: string, building: BuildingFormValues) => Promise<boolean>
   deleteBuilding: (id: string) => Promise<boolean>
 
   clearError: () => void
@@ -83,7 +83,7 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
     set({ loading: true, error: null })
 
     try {
-      const response = await AdminGetBuildingById({ id })
+      const response = await AdminGetBuildingById(id)
 
       if (!response.success) {
         set({ error: response.message, loading: false })
@@ -133,11 +133,11 @@ export const useBuilding = create<BuildingStore>()((set, get) => ({
   },
 
   // Update Building
-  updateBuilding: async (id: string, building) => {
+  updateBuilding: async (id: string, building:BuildingFormValues) => {
     set({ loading: true, error: null })
 
     try {
-      const response = await AdminUpdateBuilding({ id, data: building })
+      const response = await AdminUpdateBuilding(id,building)
 
       if (!response.success) {
         set({ error: response.message, loading: false })

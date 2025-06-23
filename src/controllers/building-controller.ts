@@ -1,5 +1,5 @@
 import { buildings } from '@/models'
-import { Building, BuildingSchema } from '@/schemas/building-schema'
+import { Building, BuildingSchema, BuildingUpdateSchema } from '@/schemas/building-schema'
 import { IPagination, IResponse, QueryParams } from '@/types/types'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -147,7 +147,7 @@ export async function UpdateBuilding(
     const data = await req.json()
     const { id } = await params
 
-    const result = BuildingSchema.safeParse(data)
+    const result = BuildingUpdateSchema.safeParse(data)
     if (!result.success) {
       return NextResponse.json(
         { success: false, message: result.error.message },

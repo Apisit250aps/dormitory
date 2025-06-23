@@ -22,7 +22,7 @@ export default function DashboardLayout({
         <AppSidebar variant="inset" />
         <SidebarInset>
           <SiteHeader />
-          {children}
+          <main className='px-3 py-3'>{children}</main>
         </SidebarInset>
       </SidebarProvider>
     </>
